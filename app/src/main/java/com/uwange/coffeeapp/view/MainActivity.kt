@@ -33,11 +33,10 @@ class MainActivity : AppCompatActivity() {
 
     // PreDrawListener Add / Remove Setup Function
     private fun setupPreDrawListener() {
-        val content: View = findViewById(android.R.id.content)
         val preDrawListener = object: ViewTreeObserver.OnPreDrawListener {
             override fun onPreDraw(): Boolean {
                 return if (viewModel.isReady) {
-                    content.viewTreeObserver.removeOnPreDrawListener(this)
+                    binding.root.viewTreeObserver.removeOnPreDrawListener(this)
                     true
                 } else {
                     false
@@ -45,7 +44,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        content.viewTreeObserver.addOnPreDrawListener(preDrawListener)
+        binding.root.viewTreeObserver.addOnPreDrawListener(preDrawListener)
     }
 
     // Exit Animation Setup Function
