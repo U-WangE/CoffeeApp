@@ -4,7 +4,9 @@ import android.animation.ObjectAnimator
 import android.os.Build.VERSION.SDK_INT
 import android.os.Build.VERSION_CODES
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.view.ViewTreeObserver
 import android.view.animation.AnticipateInterpolator
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -24,23 +26,30 @@ class MainActivity : AppCompatActivity() {
         installSplashScreen()
         setContentView(binding.root)
 
+        setupPreDrawListener()
+        viewModel.forceCompleteAnimation()
+        setupExitAnimation()
+    }
 
+    // PreDrawListener Add / Remove Setup Function
+    private fun setupPreDrawListener() {
         val content: View = findViewById(android.R.id.content)
-        content.viewTreeObserver.addOnPreDrawListener {
-            if (viewModel.isReady) {
-                content.viewTreeObserver.removeOnDrawListener {}
-                true
-            } else {
-                false
+        val preDrawListener = object: ViewTreeObserver.OnPreDrawListener {
+            override fun onPreDraw(): Boolean {
+                return if (viewModel.isReady) {
+                    content.viewTreeObserver.removeOnPreDrawListener(this)
+                    true
+                } else {
+                    false
+                }
             }
         }
 
-        configureSplashScreenAnimation()
+        content.viewTreeObserver.addOnPreDrawListener(preDrawListener)
     }
 
-    private fun configureSplashScreenAnimation() {
-        viewModel.forceCompleteAnimation()
-
+    // Exit Animation Setup Function
+    private fun setupExitAnimation() {
         if (SDK_INT >= VERSION_CODES.S) {
             splashScreen.setOnExitAnimationListener { splashScreenView ->
                 val alphaUp = ObjectAnimator.ofFloat(
