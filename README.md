@@ -7,8 +7,11 @@ Download Link : [Freebiesbug]
 Designed and released by [EmanTawfik]
 
 ## Sample Image Resource
+
 Image by [Coffee flyer template concept] (Freepik)
+
 Image by [Matcha tea poster template] (Freepik)
+
 Image by [Hand drawn international day of coffee with cup illustrated] (pikisuperstar on Freepik)
 
 [Freebiesbug]: https://freebiesbug.com/sketch-freebies/coffee-app/
