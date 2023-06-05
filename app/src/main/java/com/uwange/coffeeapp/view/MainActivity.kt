@@ -20,14 +20,14 @@ import com.google.firebase.storage.ktx.storage
 import com.uwange.coffeeapp.adapter.ImageSliderAdapter
 import com.uwange.coffeeapp.databinding.ActivityMainBinding
 import com.uwange.coffeeapp.viewmodel.MainViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private val binding: ActivityMainBinding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
     }
     private val viewModel: MainViewModel by viewModels()
-
-    private lateinit var imageSliderAdapter: ImageSliderAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,27 +38,6 @@ class MainActivity : AppCompatActivity() {
         setupPreDrawListener()
         viewModel.forceCompleteAnimation()
         setupExitAnimation()
-
-        fetchImageUrlsFromFirebaseStorage()
-    }
-    private fun fetchImageUrlsFromFirebaseStorage() {
-        val storageReference = Firebase.storage.reference
-        val imagesFolderRef = storageReference.child("advertising_images")
-
-        imagesFolderRef.listAll().addOnSuccessListener { result ->
-            val imageUrls = result.items.map { storageReference ->
-                storageReference.downloadUrl
-            }
-
-            setupImageSlider(imageUrls)
-        }.addOnFailureListener { exception ->
-            // Handle failure to fetch image URLs
-        }
-    }
-
-    private fun setupImageSlider(imageUrls: List<Task<Uri>>) {
-        imageSliderAdapter = ImageSliderAdapter(this, imageUrls)
-        binding.vpImageSlider.adapter = imageSliderAdapter
     }
 
     // PreDrawListener Add / Remove Setup Function
