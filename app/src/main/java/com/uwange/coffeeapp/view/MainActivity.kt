@@ -1,10 +1,10 @@
 package com.uwange.coffeeapp.view
 
 import android.animation.ObjectAnimator
+import android.net.Uri
 import android.os.Build.VERSION.SDK_INT
 import android.os.Build.VERSION_CODES
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.ViewTreeObserver
 import android.view.animation.AnticipateInterpolator
@@ -12,6 +12,12 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.viewpager2.widget.ViewPager2
+import com.google.android.gms.tasks.Task
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
+import com.uwange.coffeeapp.adapter.ImageSliderAdapter
 import com.uwange.coffeeapp.databinding.ActivityMainBinding
 import com.uwange.coffeeapp.viewmodel.MainViewModel
 
@@ -21,14 +27,38 @@ class MainActivity : AppCompatActivity() {
     }
     private val viewModel: MainViewModel by viewModels()
 
+    private lateinit var imageSliderAdapter: ImageSliderAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         installSplashScreen()
         setContentView(binding.root)
 
+        // Splash Screen
         setupPreDrawListener()
         viewModel.forceCompleteAnimation()
         setupExitAnimation()
+
+        fetchImageUrlsFromFirebaseStorage()
+    }
+    private fun fetchImageUrlsFromFirebaseStorage() {
+        val storageReference = Firebase.storage.reference
+        val imagesFolderRef = storageReference.child("advertising_images")
+
+        imagesFolderRef.listAll().addOnSuccessListener { result ->
+            val imageUrls = result.items.map { storageReference ->
+                storageReference.downloadUrl
+            }
+
+            setupImageSlider(imageUrls)
+        }.addOnFailureListener { exception ->
+            // Handle failure to fetch image URLs
+        }
+    }
+
+    private fun setupImageSlider(imageUrls: List<Task<Uri>>) {
+        imageSliderAdapter = ImageSliderAdapter(this, imageUrls)
+        binding.vpImageSlider.adapter = imageSliderAdapter
     }
 
     // PreDrawListener Add / Remove Setup Function
