@@ -8,8 +8,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.android.gms.tasks.Task
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage
 import com.uwange.coffeeapp.adapter.ImageSliderAdapter
 import com.uwange.coffeeapp.databinding.FragmentHomeBinding
 import com.uwange.coffeeapp.viewmodel.HomeFragmentViewModel

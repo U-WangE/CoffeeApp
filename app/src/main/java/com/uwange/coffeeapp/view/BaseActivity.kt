@@ -11,26 +11,53 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.navigation.NavController
+import androidx.navigation.NavOptions
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
+import com.uwange.coffeeapp.R
 import com.uwange.coffeeapp.databinding.ActivityBaseBinding
 import com.uwange.coffeeapp.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class BaseActivity : AppCompatActivity() {
-    private val binding: ActivityBaseBinding by lazy {
-        ActivityBaseBinding.inflate(layoutInflater)
-    }
+    private var _binding: ActivityBaseBinding? = null
+    private val binding get() = _binding!!
     private val viewModel: MainViewModel by viewModels()
+    private lateinit var navHostFragment: NavHostFragment
+    private lateinit var navController: NavController
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         installSplashScreen()
+        _binding = ActivityBaseBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         // Splash Screen
         setupPreDrawListener()
         viewModel.forceCompleteAnimation()
         setupExitAnimation()
+
+        navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        navController = navHostFragment.navController
+        binding.navBottomMenu.setupWithNavController(navController)
+        binding.navBottomMenu.setOnItemSelectedListener { menuItem ->
+            val navOptions = NavOptions.Builder().build()
+
+            if (navController.currentDestination?.id != menuItem.itemId) {
+                navController.navigate(menuItem.itemId, null, navOptions)
+                true
+            } else {
+                false
+            }
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 
     // PreDrawListener Add / Remove Setup Function
