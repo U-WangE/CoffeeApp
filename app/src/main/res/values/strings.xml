@@ -2,4 +2,17 @@
     <string name="app_name">CoffeeApp</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Home -->
+    <string name="nav_menu_home_title">Home</string>
+
+    <!-- Location -->
+    <string name="nav_menu_location_title">Location</string>
+
+    <!-- Cart -->
+    <string name="nav_menu_cart_title">Cart</string>
+
+    <!-- Profile -->
+    <string name="nav_menu_profile_title">Profile</string>
+
 </resources>

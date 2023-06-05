@@ -1,7 +1,7 @@
 package com.uwange.coffeeapp.viewmodel
 
-import android.os.Build.VERSION_CODES
 import android.os.Build.VERSION.SDK_INT
+import android.os.Build.VERSION_CODES
 import androidx.lifecycle.ViewModel
 import java.lang.Thread.sleep
 import kotlin.concurrent.thread

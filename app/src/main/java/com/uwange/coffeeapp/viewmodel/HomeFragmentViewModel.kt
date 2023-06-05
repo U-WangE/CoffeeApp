@@ -7,9 +7,10 @@ import androidx.lifecycle.ViewModel
 import com.google.android.gms.tasks.Task
 import com.uwange.coffeeapp.data.repository.ImageRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
 @HiltViewModel
-class HomeFragmentViewModel(
+class HomeFragmentViewModel @Inject constructor(
     private val imageRepository: ImageRepository
 ) : ViewModel() {
     private val _imageUrls = MutableLiveData<List<Task<Uri>>>()
