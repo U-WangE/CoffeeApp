@@ -16,4 +16,18 @@
         app:layout_constraintTop_toTopOf="parent"
         />
 
+    <TextView
+        android:id="@+id/tv_view_pager_counter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/gray_ellipse"
+        android:layout_margin="15dp"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="4dp"
+        android:text="0 / 0"
+        app:layout_constraintBottom_toBottomOf="@id/vp_image_slider"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

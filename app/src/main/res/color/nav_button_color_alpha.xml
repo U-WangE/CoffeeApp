@@ -5,5 +5,5 @@
         android:color="@color/nav_button_checked" />
     <item
         android:state_checked="false"
-        android:color="@color/nav_button_unchecked_alpha" />
+        android:color="@color/nav_button_unchecked_alpha_80" />
 </selector>
