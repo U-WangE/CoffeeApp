@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator
 import android.os.Build.VERSION.SDK_INT
 import android.os.Build.VERSION_CODES
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewTreeObserver
 import android.view.animation.AnticipateInterpolator
@@ -40,19 +41,8 @@ class BaseActivity : AppCompatActivity() {
         viewModel.forceCompleteAnimation()
         setupExitAnimation()
 
-        navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        navController = navHostFragment.navController
-        binding.navBottomMenu.setupWithNavController(navController)
-        binding.navBottomMenu.setOnItemSelectedListener { menuItem ->
-            val navOptions = NavOptions.Builder().build()
-
-            if (navController.currentDestination?.id != menuItem.itemId) {
-                navController.navigate(menuItem.itemId, null, navOptions)
-                true
-            } else {
-                false
-            }
-        }
+        // navigation Setup
+        setupNavigation()
     }
 
     override fun onDestroy() {
@@ -96,6 +86,23 @@ class BaseActivity : AppCompatActivity() {
                 }
 
                 alphaUp.start()
+            }
+        }
+    }
+
+    private fun setupNavigation() {
+        navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        navController = navHostFragment.navController
+        binding.navBottomMenu.setupWithNavController(navController)
+
+        binding.navBottomMenu.setOnItemSelectedListener { menuItem ->
+            // Click Menu Item이 현재 Page의 Item인지 판단
+            if (navController.currentDestination?.id != menuItem.itemId) {
+                val navOptions = NavOptions.Builder().build()
+                navController.navigate(menuItem.itemId, null, navOptions)
+                true
+            } else {
+                false
             }
         }
     }
