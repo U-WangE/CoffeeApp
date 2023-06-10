@@ -1,12 +1,16 @@
 package com.uwange.coffeeapp.view
 
 import android.animation.ObjectAnimator
+import android.app.Activity
+import android.content.Intent
 import android.os.Build.VERSION.SDK_INT
 import android.os.Build.VERSION_CODES
 import android.os.Bundle
 import android.view.View
 import android.view.ViewTreeObserver
 import android.view.animation.AnticipateInterpolator
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.animation.doOnEnd
@@ -15,6 +19,12 @@ import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
+import com.google.firebase.FirebaseApp
+import com.google.firebase.auth.FirebaseAuth
+import com.uwange.coffeeapp.BuildConfig
 import com.uwange.coffeeapp.R
 import com.uwange.coffeeapp.databinding.ActivityBaseBinding
 import com.uwange.coffeeapp.viewmodel.BaseViewModel
@@ -29,6 +39,18 @@ class BaseActivity : AppCompatActivity() {
     private lateinit var navController: NavController
 
 
+
+    private val firebaseAuth: FirebaseAuth by lazy {
+        FirebaseAuth.getInstance()
+    }
+    private lateinit var launcher: ActivityResultLauncher<Intent>
+    private val googleSignInOptions =
+            GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(BuildConfig.google_client_id)
+                .requestEmail()
+                .requestProfile()
+                .build()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         installSplashScreen()
@@ -39,6 +61,10 @@ class BaseActivity : AppCompatActivity() {
         setupPreDrawListener()
         viewModel.forceCompleteAnimation()
         setupExitAnimation()
+
+        FirebaseApp.initializeApp(applicationContext)
+        setGoogleLoginLauncher()
+        autoLogin()
 
         // navigation Setup
         setupNavigation()
@@ -88,6 +114,44 @@ class BaseActivity : AppCompatActivity() {
             }
         }
     }
+
+    private fun setGoogleLoginLauncher() {
+        launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == Activity.RESULT_OK) {
+                try {
+                    val googleSignIn = GoogleSignIn.getSignedInAccountFromIntent(it.data)
+                    viewModel.firebaseAuthWithGoogle(googleSignIn.result.idToken, firebaseAuth) { user ->
+                        // google && firebase login success
+                        viewModel.saveUserData(user)
+                    }
+                } catch (e: ApiException) {
+                    // google or firebase login failure
+                }
+            }
+        }
+    }
+
+    private fun isUserLoggedIn() =
+        GoogleSignIn.getLastSignedInAccount(this) != null && firebaseAuth.currentUser != null
+
+    private fun autoLogin() {
+        if (isUserLoggedIn()) {
+            firebaseAuth.currentUser!!.getIdToken(true).addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    // login success
+                    viewModel.saveUserData(firebaseAuth.currentUser)
+                } else {
+                    launcher.launch(
+                        GoogleSignIn.getClient(this,googleSignInOptions).signInIntent)
+                }
+            }
+        } else {
+            launcher.launch(
+                GoogleSignIn.getClient(this, googleSignInOptions).signInIntent)
+        }
+    }
+
+
 
     private fun setupNavigation() {
         navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
