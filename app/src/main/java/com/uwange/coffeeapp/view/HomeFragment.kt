@@ -1,10 +1,13 @@
 package com.uwange.coffeeapp.view
 
+import android.content.res.Resources
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2
@@ -27,7 +30,7 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
-
+        setupStampsImage()
         return binding.root
     }
 
@@ -57,5 +60,48 @@ class HomeFragment : Fragment() {
                 binding.tvViewPagerCounter.text = getString(R.string.viewpager2_banner, position + 1, imageUrls.size)
             }
         })
+    }
+
+    fun setupStampsImage() {
+
+        // Assuming you have a LinearLayout with id "linearContainer" defined in your XML layout file
+        val linearContainer: LinearLayout = binding.llStamps
+
+        // Array of bottom margins in dp
+        val topMargins = arrayOf(3, 15, 20, 15, 3)
+
+        // Array of image resource IDs
+        val imageResources = arrayOf(
+            R.drawable.icon_coffee_bean,
+            R.drawable.icon_coffee_bean,
+            R.drawable.icon_coffee_bean,
+            R.drawable.icon_coffee_bean,
+            R.drawable.icon_coffee_bean
+        )
+        for (i in topMargins.indices) {
+            val imageView = ImageView(requireContext())
+            val layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            )
+            layoutParams.setMargins(
+                0,
+                resources.dpToPx(topMargins[i]),
+                0,
+                0
+            ) // Convert dp to pixels
+            layoutParams.width = resources.dpToPx(50) // Set a fixed width of 50dp
+            layoutParams.height = resources.dpToPx(50) // Set a fixed height of 50dp
+            imageView.layoutParams = layoutParams
+            imageView.setImageResource(imageResources[i])
+
+            linearContainer.addView(imageView)
+        }
+    }
+
+    // Extension function to convert dp to pixels
+    fun Resources.dpToPx(dp: Int): Int {
+        val scale = displayMetrics.density
+        return (dp * scale + 0.5f).toInt()
     }
 }
