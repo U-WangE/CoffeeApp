@@ -16,6 +16,18 @@
         app:layout_constraintTop_toTopOf="parent"
         />
 
+    <ProgressBar
+        android:id="@+id/pb_progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="@id/vp_image_slider"
+        app:layout_constraintBottom_toBottomOf="@id/vp_image_slider"
+        app:layout_constraintStart_toStartOf="@id/vp_image_slider"
+        app:layout_constraintEnd_toEndOf="@id/vp_image_slider"
+    />
+
     <TextView
         android:id="@+id/tv_view_pager_counter"
         android:layout_width="wrap_content"

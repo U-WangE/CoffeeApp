@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import java.lang.Thread.sleep
 import kotlin.concurrent.thread
 
-class MainViewModel: ViewModel() {
+class BaseViewModel: ViewModel() {
     var isReady = false
 
     // splash screen animation 종료 error 발생시 time 초 후 animation 강제 종료

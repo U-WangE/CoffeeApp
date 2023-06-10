@@ -21,7 +21,6 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel : HomeFragmentViewModel by viewModels()
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -49,17 +48,13 @@ class HomeFragment : Fragment() {
 
     //TODO::차후 infinite pager adapter, auto slider 제작
     private fun setupImageSlider(imageUrls: List<Task<Uri>>) {
-        val imageSliderAdapter = ImageSliderAdapter(requireContext(), imageUrls)
+        val imageSliderAdapter = ImageSliderAdapter(requireContext(), imageUrls, binding.pbProgressBar)
         binding.vpImageSlider.adapter = imageSliderAdapter
-        setupViewPageCounter(imageUrls.size)
-    }
-
-    private fun setupViewPageCounter(itemSize: Int) {
-        binding.tvViewPagerCounter.text = getString(R.string.viewpager2_banner, 1, itemSize)
+        binding.tvViewPagerCounter.text = getString(R.string.viewpager2_banner, 1, imageUrls.size)
         binding.vpImageSlider.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-                binding.tvViewPagerCounter.text = getString(R.string.viewpager2_banner, position + 1, itemSize)
+                binding.tvViewPagerCounter.text = getString(R.string.viewpager2_banner, position + 1, imageUrls.size)
             }
         })
     }

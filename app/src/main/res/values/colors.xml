@@ -12,9 +12,9 @@
     <color name="white">#FFFFFFFF</color>
     <color name="light_beige">#FFF8E8D4</color>
 
-    <color name="nav_button_checked">#FFB26E5A</color>
-    <color name="nav_button_unchecked_alpha_80">#CCC28E79</color>
-    <color name="nav_button_unchecked">#FFC28E79</color>
+    <color name="sienna_orange">#FFB26E5A</color>
+    <color name="taupe_brown">#CCC28E79</color>
+    <color name="light_terracotta">#FFC28E79</color>
 
 
 </resources>

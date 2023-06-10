@@ -4,7 +4,6 @@ import android.animation.ObjectAnimator
 import android.os.Build.VERSION.SDK_INT
 import android.os.Build.VERSION_CODES
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.ViewTreeObserver
 import android.view.animation.AnticipateInterpolator
@@ -18,14 +17,14 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.uwange.coffeeapp.R
 import com.uwange.coffeeapp.databinding.ActivityBaseBinding
-import com.uwange.coffeeapp.viewmodel.MainViewModel
+import com.uwange.coffeeapp.viewmodel.BaseViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class BaseActivity : AppCompatActivity() {
     private var _binding: ActivityBaseBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: MainViewModel by viewModels()
+    private val viewModel: BaseViewModel by viewModels()
     private lateinit var navHostFragment: NavHostFragment
     private lateinit var navController: NavController
 

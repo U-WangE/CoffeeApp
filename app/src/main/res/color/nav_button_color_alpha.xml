@@ -2,8 +2,8 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:state_checked="true"
-        android:color="@color/nav_button_checked" />
+        android:color="@color/sienna_orange" />
     <item
         android:state_checked="false"
-        android:color="@color/nav_button_unchecked_alpha_80" />
+        android:color="@color/taupe_brown" />
 </selector>
