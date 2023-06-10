@@ -16,9 +16,15 @@ Image by [Hand drawn international day of coffee with cup illustrated] (pikisupe
 
 Image by [Coffee poster template] (pongpongching on Freepik)
 
+Image by [Coffee Icon Filled] (javisperez on svgrepo)
+
+Image by [Coffee Icon Unfilled] (javisperez on svgrepo)
+
 [Freebiesbug]: https://freebiesbug.com/sketch-freebies/coffee-app/
 [EmanTawfik]: https://dribbble.com/EmanTawfik
 [Coffee flyer template concept]: https://www.freepik.com/free-psd/coffee-flyer-template-concept_9393028.htm?epik=dj0yJnU9ajFOZkI2dU4zZmFpZHdScE9LdzVBaV9adG4yRFptVlImcD0wJm49SUIzTHEtM1hXdTh0TjQyQ2tkeHJuZyZ0PUFBQUFBR1I4aXJV
 [Matcha tea poster template]: https://www.freepik.com/free-vector/matcha-tea-poster-template_9925932.htm?epik=dj0yJnU9VnMxa2gtR0hrczcxNTRTZnRXUV9ld0t4UDU1Yll1R0wmcD0wJm49THJkUExzMWh0MnlfZ3Rtb0hWUWktUSZ0PUFBQUFBR1I4amEw
 [Hand drawn international day of coffee with cup illustrated]: https://www.freepik.com/free-vector/hand-drawn-international-day-coffee-with-cup-illustrated_9882912.htm?epik=dj0yJnU9LWx0NnpoSjZfRW0waXJfMldDbXdDaC1IRno1TE16ZzkmcD0wJm49bG9ONEhzRkZ6X3BfeUZSQk1DOVlvZyZ0PUFBQUFBR1I4a2xv
 [Coffee poster template]: https://www.freepik.com/free-vector/coffee-poster-template_8314338.htm
+[Coffee Icon Filled]: https://www.svgrepo.com/svg/493664/coffee-beans-filled-roast-brew
+[Coffee Icon Unfilled]: https://www.svgrepo.com/svg/493663/coffee-beans-roast-brew
