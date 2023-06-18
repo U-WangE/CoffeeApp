@@ -6,12 +6,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.android.gms.tasks.Task
 import com.uwange.coffeeapp.data.repository.ImageRepository
+import com.uwange.coffeeapp.data.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeFragmentViewModel @Inject constructor(
-    private val imageRepository: ImageRepository
+    private val imageRepository: ImageRepository,
+    private val userRepository: UserRepository
 ) : ViewModel() {
     private val _imageUrls = MutableLiveData<List<Task<Uri>>>()
     val imageUrls: LiveData<List<Task<Uri>>> = _imageUrls
@@ -25,5 +27,9 @@ class HomeFragmentViewModel @Inject constructor(
                 // Handle failure to fetch image URLs
                 //TODO::STOP REFRESH ICON
             }
+    }
+
+    fun getUserName() : String {
+        return userRepository.getUserName()
     }
 }

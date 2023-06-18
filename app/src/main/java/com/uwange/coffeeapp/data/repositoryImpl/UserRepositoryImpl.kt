@@ -1,5 +1,6 @@
 package com.uwange.coffeeapp.data.repositoryImpl
 
+import android.util.Log
 import com.google.firebase.auth.FirebaseUser
 import com.uwange.coffeeapp.data.repository.UserRepository
 import com.uwange.coffeeapp.sharedpreference.CoffeePreference
@@ -24,5 +25,9 @@ class UserRepositoryImpl @Inject constructor(
             )
 
         pref.userData = userData
+    }
+
+    override fun getUserName(): String {
+        return pref.userData?.userName?:"Unknown"
     }
 }

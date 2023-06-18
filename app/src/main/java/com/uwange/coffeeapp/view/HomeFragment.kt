@@ -1,13 +1,17 @@
 package com.uwange.coffeeapp.view
 
+import android.annotation.SuppressLint
 import android.content.res.Resources
 import android.net.Uri
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2
@@ -31,6 +35,7 @@ class HomeFragment : Fragment() {
     ): View? {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         setupStampsImage()
+        setUserName()
         return binding.root
     }
 
@@ -62,7 +67,7 @@ class HomeFragment : Fragment() {
         })
     }
 
-    fun setupStampsImage() {
+    private fun setupStampsImage() {
 
         // Assuming you have a LinearLayout with id "linearContainer" defined in your XML layout file
         val linearContainer: LinearLayout = binding.llStamps
@@ -100,8 +105,29 @@ class HomeFragment : Fragment() {
     }
 
     // Extension function to convert dp to pixels
-    fun Resources.dpToPx(dp: Int): Int {
+    private fun Resources.dpToPx(dp: Int): Int {
         val scale = displayMetrics.density
         return (dp * scale + 0.5f).toInt()
     }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private fun setUserName() {
+        var isLongPressed = false
+        binding.tvUserName.text = viewModel.getUserName()
+        binding.tvUserName.setOnLongClickListener {
+            (it as TextView).maxLines = Int.MAX_VALUE
+            it.ellipsize = null
+            isLongPressed = true
+            false
+        }
+        binding.tvUserName.setOnTouchListener { it, event ->
+            if (event.action == MotionEvent.ACTION_UP && isLongPressed) {
+                (it as TextView).maxLines = 1
+                it.ellipsize = TextUtils.TruncateAt.END
+                isLongPressed = false
+            }
+            false
+        }
+    }
+
 }
