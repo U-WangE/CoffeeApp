@@ -24,6 +24,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import com.uwange.coffeeapp.BuildConfig
 import com.uwange.coffeeapp.R
 import com.uwange.coffeeapp.databinding.ActivityBaseBinding
@@ -35,10 +36,9 @@ class BaseActivity : AppCompatActivity() {
     private var _binding: ActivityBaseBinding? = null
     private val binding get() = _binding!!
     private val viewModel: BaseViewModel by viewModels()
+
     private lateinit var navHostFragment: NavHostFragment
     private lateinit var navController: NavController
-
-
 
     private val firebaseAuth: FirebaseAuth by lazy {
         FirebaseAuth.getInstance()

@@ -3,8 +3,10 @@ package com.uwange.coffeeapp.data.di
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
+import com.uwange.coffeeapp.data.repository.CouponPointRepository
 import com.uwange.coffeeapp.data.repository.ImageRepository
 import com.uwange.coffeeapp.data.repository.UserRepository
+import com.uwange.coffeeapp.data.repositoryImpl.CouponPointRepositoryImpl
 import com.uwange.coffeeapp.data.repositoryImpl.ImageRepositoryImpl
 import com.uwange.coffeeapp.data.repositoryImpl.UserRepositoryImpl
 import com.uwange.coffeeapp.sharedpreference.CoffeePreference
@@ -33,4 +35,9 @@ class AppModule {
     @Singleton
     fun provideUserRepository(pref: CoffeePreference): UserRepository =
         UserRepositoryImpl(pref)
+
+    @Provides
+    @Singleton
+    fun provideCouponPointRepository(pref: CoffeePreference): CouponPointRepository =
+        CouponPointRepositoryImpl(pref)
 }
