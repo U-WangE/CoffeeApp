@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
+import com.uwange.coffeeapp.data.repository.CouponPointRepository
 import com.uwange.coffeeapp.data.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.lang.Thread.sleep
@@ -14,7 +15,8 @@ import kotlin.concurrent.thread
 
 @HiltViewModel
 class BaseViewModel @Inject constructor(
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val couponPointRepository: CouponPointRepository
 ): ViewModel() {
     var isReady = false
 
@@ -45,6 +47,7 @@ class BaseViewModel @Inject constructor(
     fun saveUserData(currentUser: FirebaseUser?) {
         if (currentUser != null) {
             userRepository.saveUserData(currentUser)
+            couponPointRepository.insertCouponPointData(currentUser)
         }
     }
 }

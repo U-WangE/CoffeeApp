@@ -16,4 +16,8 @@ class CoffeePreference @Inject constructor(private val pref: SharedPreferences) 
             }
         }
         set(value) { pref.edit().putString("user_data", Gson().toJson(value)).apply()}
+
+    var couponPoint: Int
+        get() { return pref.getInt("coupon_point", 0) }
+        set(value) { pref.edit().putInt("coupon_point", value) }
 }
