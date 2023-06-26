@@ -6,6 +6,7 @@
     <!-- Home -->
     <string name="nav_menu_home_title">Home</string>
     <string name="viewpager2_banner">%1$d / %2$d</string>
+    <string name="coupon_counter">%d / 5</string>
 
     <!-- Location -->
     <string name="nav_menu_location_title">Location</string>

@@ -36,6 +36,9 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         setupStampsImage()
         setUserName()
+
+        // 현재 coupon point set
+        setUserCouponPoint()
         return binding.root
     }
 
@@ -67,22 +70,24 @@ class HomeFragment : Fragment() {
         })
     }
 
+    // coupon stamp 이미지 생성
     private fun setupStampsImage() {
-
+        val couponPointCount = viewModel.getCouponPointData()
+        val couponMaxPoint = 5
         // Assuming you have a LinearLayout with id "linearContainer" defined in your XML layout file
         val linearContainer: LinearLayout = binding.llStamps
 
         // Array of bottom margins in dp
         val topMargins = arrayOf(3, 15, 20, 15, 3)
 
-        // Array of image resource IDs
-        val imageResources = arrayOf(
-            R.drawable.icon_coffee_bean,
-            R.drawable.icon_coffee_bean,
-            R.drawable.icon_coffee_bean,
-            R.drawable.icon_coffee_bean,
-            R.drawable.icon_coffee_bean
-        )
+        // Coupon Image Setup
+        val imageResources: Array<Int> = Array(couponMaxPoint) {
+            if (couponPointCount >= couponMaxPoint - it)
+                R.drawable.icon_coffee_bean_filled
+            else
+                R.drawable.icon_coffee_bean
+        }
+
         for (i in topMargins.indices) {
             val imageView = ImageView(requireContext())
             val layoutParams = LinearLayout.LayoutParams(
@@ -130,4 +135,8 @@ class HomeFragment : Fragment() {
         }
     }
 
+    /// stamp image 변경  적용해야함
+    private fun setUserCouponPoint() {
+        binding.tvStampsCounter.text = getString(R.string.coupon_counter, viewModel.getCouponPointData())
+    }
 }

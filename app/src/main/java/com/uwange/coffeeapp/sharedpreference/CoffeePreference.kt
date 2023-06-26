@@ -19,5 +19,5 @@ class CoffeePreference @Inject constructor(private val pref: SharedPreferences) 
 
     var couponPoint: Int
         get() { return pref.getInt("coupon_point", 0) }
-        set(value) { pref.edit().putInt("coupon_point", value) }
+        set(value) { pref.edit().putInt("coupon_point", value).apply() }
 }
