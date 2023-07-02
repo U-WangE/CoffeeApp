@@ -38,7 +38,7 @@ class ImageSliderAdapter(
             Glide.with(context)
                 .load(imageUrl)
                 .thumbnail(0.1f)
-                .error(R.drawable.icon_broken_image)
+                .error(R.drawable.ic_broken_image)
                 .listener(object : RequestListener<Drawable> {
                     override fun onLoadFailed(
                         e: GlideException?,

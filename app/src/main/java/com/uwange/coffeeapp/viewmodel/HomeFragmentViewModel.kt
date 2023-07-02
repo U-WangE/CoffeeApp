@@ -35,6 +35,10 @@ class HomeFragmentViewModel @Inject constructor(
         return userRepository.getUserName()
     }
 
+    fun getUserId() : String {
+        return userRepository.getUserId()
+    }
+
     fun getCouponPointData(): Int {
         return couponPointRepository.getCouponPointData()
     }

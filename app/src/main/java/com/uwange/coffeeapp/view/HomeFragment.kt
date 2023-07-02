@@ -1,6 +1,7 @@
 package com.uwange.coffeeapp.view
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.res.Resources
 import android.net.Uri
 import android.os.Bundle
@@ -16,14 +17,23 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.gms.tasks.Task
+import com.google.zxing.BarcodeFormat
+import com.journeyapps.barcodescanner.BarcodeEncoder
 import com.uwange.coffeeapp.R
 import com.uwange.coffeeapp.adapter.ImageSliderAdapter
+import com.uwange.coffeeapp.databinding.DialogCircleCloseBinding
 import com.uwange.coffeeapp.databinding.FragmentHomeBinding
+import com.uwange.coffeeapp.utils.CommonUtil.showToast
 import com.uwange.coffeeapp.viewmodel.HomeFragmentViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
+    private companion object {
+        private const val TAG_BARCODE = "BARCODE"
+        private const val TAG_QRCODE = "QRCODE"
+    }
+
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
@@ -36,6 +46,7 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         setupStampsImage()
         setUserName()
+        setupBarcodeDialog()
 
         // 현재 coupon point set
         setUserCouponPoint()
@@ -83,9 +94,9 @@ class HomeFragment : Fragment() {
         // Coupon Image Setup
         val imageResources: Array<Int> = Array(couponMaxPoint) {
             if (couponPointCount >= couponMaxPoint - it)
-                R.drawable.icon_coffee_bean_filled
+                R.drawable.ic_coffee_bean_filled
             else
-                R.drawable.icon_coffee_bean
+                R.drawable.ic_coffee_bean
         }
 
         for (i in topMargins.indices) {
@@ -113,6 +124,59 @@ class HomeFragment : Fragment() {
     private fun Resources.dpToPx(dp: Int): Int {
         val scale = displayMetrics.density
         return (dp * scale + 0.5f).toInt()
+    }
+
+    private fun setupBarcodeDialog() {
+        // 이미지 뷰 및 이미지 설정
+        val barcodeEncoder = BarcodeEncoder()
+        val bitmap = barcodeEncoder.encodeBitmap("123123214",
+            BarcodeFormat.CODE_128, 100, 50)
+        binding.ivBarcodeOrQr.setImageBitmap(bitmap)
+
+        binding.ivBarcodeOrQr.setOnClickListener {
+            createBarcode()
+        }
+    }
+
+    fun createBarcode() {
+        val builder = AlertDialog.Builder(context)
+        val inflater = LayoutInflater.from(context)
+        val dialogView = inflater.inflate(R.layout.dialog_circle_close, null)
+        val dialogBinding = DialogCircleCloseBinding.bind(dialogView)
+        val bitmap = BarcodeEncoder().encodeBitmap(viewModel.getUserId(), BarcodeFormat.CODE_128, 200, 100)
+        dialogBinding.ivCodeImage.setImageBitmap(bitmap)
+        dialogBinding.btSwitchBarcodeOrQr.tag = TAG_QRCODE
+
+        dialogBinding.btSwitchBarcodeOrQr.setOnClickListener {
+            when (dialogBinding.btSwitchBarcodeOrQr.tag) {
+                TAG_BARCODE -> {
+                    dialogBinding.ivCodeImage.setImageBitmap(
+                        BarcodeEncoder().encodeBitmap(viewModel.getUserId(), BarcodeFormat.CODE_128, 200, 100)
+                    )
+                    dialogBinding.btSwitchBarcodeOrQr.tag = TAG_QRCODE
+                    dialogBinding.btSwitchBarcodeOrQr.text = TAG_BARCODE
+                }
+                TAG_QRCODE -> {
+                    dialogBinding.ivCodeImage.setImageBitmap(
+                        BarcodeEncoder().encodeBitmap(viewModel.getUserId(), BarcodeFormat.QR_CODE, 200, 200)
+                    )
+                    dialogBinding.btSwitchBarcodeOrQr.tag = TAG_BARCODE
+                    dialogBinding.btSwitchBarcodeOrQr.text = TAG_QRCODE
+                }
+                else -> {
+                    showToast(requireContext(), "Code Load Error")
+                }
+            }
+        }
+
+        builder.setView(dialogView)
+        val alertDialog = builder.create()
+
+        dialogBinding.btClose.setOnClickListener {
+            alertDialog.dismiss()
+        }
+
+        alertDialog.show()
     }
 
     @SuppressLint("ClickableViewAccessibility")

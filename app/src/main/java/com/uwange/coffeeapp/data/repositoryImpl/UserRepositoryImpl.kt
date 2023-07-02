@@ -30,4 +30,8 @@ class UserRepositoryImpl @Inject constructor(
     override fun getUserName(): String {
         return pref.userData?.userName?:"Unknown"
     }
+
+    override fun getUserId(): String {
+        return pref.userData?.userId?:"Unknown"
+    }
 }

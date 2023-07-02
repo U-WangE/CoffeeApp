@@ -2,24 +2,24 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/menu_home"
-        android:icon="@drawable/icon_home"
+        android:icon="@drawable/ic_home"
         android:title="@string/nav_menu_home_title"
         android:orderInCategory="0"/>
     <item
         android:id="@+id/menu_location"
-        android:icon="@drawable/icon_location"
+        android:icon="@drawable/ic_location"
         android:title="@string/nav_menu_location_title"
         android:orderInCategory="1"
         />
     <item
         android:id="@+id/menu_cart"
-        android:icon="@drawable/icon_cart"
+        android:icon="@drawable/ic_cart"
         android:title="@string/nav_menu_cart_title"
         android:orderInCategory="2"
         />
     <item
         android:id="@+id/menu_profile"
-        android:icon="@drawable/icon_profile"
+        android:icon="@drawable/ic_profile"
         android:title="@string/nav_menu_profile_title"
         android:orderInCategory="3"
         />
